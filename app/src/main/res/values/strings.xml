@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">visitor</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="fullname">Fullname</string>
+    <string name="placa">Placa</string>
+    <string name="loginhere">Already have an account? <uL>Login  </uL> </string>
+    <string name="signup">SignUp</string>
+    <string name="signuphere">Create a new account? SignUp</string>
+    <string name="welcome">Welcome</string>
+</resources>

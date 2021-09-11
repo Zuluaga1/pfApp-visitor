@@ -7,12 +7,13 @@
     tools:context=".SignUP">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.379"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintVertical_bias="0.4"
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/textView"
@@ -117,8 +118,8 @@
 
         <ProgressBar
             android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="14dp"
+            android:layout_height="13dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,12 +131,12 @@
             android:layout_width="81dp"
 
             android:layout_height="38dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="36dp"
             android:background="@color/colorAccent"
             android:text="@string/signup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
         <TextView
             android:id="@+id/loginText"
@@ -148,6 +149,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonSignUp"
             tools:targetApi="jelly_bean" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="351dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:spinnerMode="dropdown"
+            android:drawableEnd="@drawable/ic_username"
+
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

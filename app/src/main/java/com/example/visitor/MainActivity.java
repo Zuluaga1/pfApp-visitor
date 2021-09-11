@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
            public void onClick(View view){
                Date d = new Date();
                contador++;
-               String text= datosObtenidos+d;
+               String text= datosObtenidos+","+d;
                MultiFormatWriter writer = new MultiFormatWriter();
 
                try {

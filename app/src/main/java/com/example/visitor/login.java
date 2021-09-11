@@ -23,6 +23,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -38,7 +39,7 @@ public class login extends AppCompatActivity {
           //      WindowManager.LayoutParams.FLAG_SECURE); bloquear ss
         setContentView(R.layout.activity_login);
          final String esteban;
-        new Peticion().execute();
+
 
         textInputEditTextUsername = findViewById(R.id.username);
         textInputEditTextPassword = findViewById(R.id.password);
@@ -78,6 +79,7 @@ public class login extends AppCompatActivity {
                             String[] data = new String[2];
                             data[0] = username;
                             data[1] = password;
+                            getPosts(username,password);
 
 
                             //PutData putData = new PutData("http://192.168.1.85/LoginRegister/login.php", "POST", field, data);
@@ -87,12 +89,15 @@ public class login extends AppCompatActivity {
                                // if (putData.onComplete()) {
                                     //progressBar.setVisibility(View.GONE);
                                    // String result = putData.getResult();
-                                    //if(result.equals("Login Success")){
+                                    //if(valid() == false){
                                   //      Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
+                            /*
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         intent.putExtra("usuario",username);
                                         startActivity(intent);
                                         finish();
+
+                             */
                                     //}
                                     //else{
                                       //  Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
@@ -111,6 +116,41 @@ public class login extends AppCompatActivity {
             }
         });
     }
+    private void getPosts(String username, String password){
+        Boolean app;
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.84:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build(); //creando instancia retrofit
+        ProductoApi productoApi = retrofit.create(ProductoApi.class);
+        Call<List<User>> call = productoApi.getUsersPost(new User(username,password));
+        call.enqueue(new Callback<List<User>>(){
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+               List<User> postsList = response.body();
+               for(User user: postsList){
+                   String content = "";
+                   content += "pro_nombre:"+ user.getPro_nombre() + "\n";
+                   content += "pro_placa:"+ user.getPro_placa() + "\n";
+                   Log.e("APi encontrada: ",content);
+               }
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("usuario",username);
+                startActivity(intent);
+                finish();
+
+                //Log.e("Usuario:",response.body());
+                //Log.e("User:", String.valueOf(response));
+
+            }
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.e("hola: ","no API");
+                Toast.makeText(getApplicationContext(),"incorrecto", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    /*
     public class Peticion extends AsyncTask<Void, Void, Call<List<User>>> {
         //String  username, password;
 
@@ -134,7 +174,7 @@ public class login extends AppCompatActivity {
                     log.e("User:", response.body)
                 }
             })
-            /*
+
             Call<List<User>> response = service.getUsersPost();
 
             try {
@@ -143,10 +183,11 @@ public class login extends AppCompatActivity {
                     Log.e("Respuesta:   ",user.getPro_nombre()+ " "+user.getPro_placa());
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
             return null;
         }
     }
+    */
     /*
     private void find(String codigo){
         Retrofit retrofit =new Retrofit.Builder().baseUrl("http://192.168.1.85:5000/")

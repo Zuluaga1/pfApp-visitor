@@ -1,5 +1,6 @@
 package com.example.visitor.models;
 
+
 public class User {
     //private String pro_user;
     private String pro_nombre;
@@ -9,6 +10,7 @@ public class User {
     private String fullname;
     private String placa;
     private String rol;
+
     public User(String usuario, String contraseña) {
         this.usuario = usuario;
         this.contraseña = contraseña;

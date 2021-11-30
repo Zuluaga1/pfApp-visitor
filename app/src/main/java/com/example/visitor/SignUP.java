@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.example.visitor.interfaces.ProductoApi;
 import com.example.visitor.models.User;
 import com.google.android.material.textfield.TextInputEditText;
-import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import java.util.List;
 
@@ -91,31 +89,6 @@ public class SignUP extends AppCompatActivity {
                         data[3] = placa;
                         String rol = spinner1.getSelectedItem().toString();
                         getPosts(fullname, username, password, placa,rol );
-
-                        /*
-                        PutData putData = new PutData("http://192.168.1.85/LoginRegister/signup.php", "POST", field, data);
-                        if (putData.startPut()) {
-                            if (putData.onComplete()) {
-                                progressBar.setVisibility(View.GONE);
-
-                                String result = putData.getResult();
-                                if(result.equals("Sign Up Success")){
-                                    Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), login.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
-
-                                }
-                                //End ProgressBar (Set visibility to GONE)
-                                //Log.i("PutData", result);
-                            }
-                        }
-
-                         */
-                        //End Write and Read data with URL
                     }
                 });
             }
@@ -124,13 +97,10 @@ public class SignUP extends AppCompatActivity {
                 }
             }
         });
-        
-
     }
     private void getPosts(String username, String password, String fullname, String placa, String rol){
-        Boolean app;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.84:5000/")
+                .baseUrl("http://3.141.193.87:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build(); //creando instancia retrofit
         ProductoApi productoApi = retrofit.create(ProductoApi.class);
@@ -149,10 +119,6 @@ public class SignUP extends AppCompatActivity {
                 //intent.putExtra("",username);
                 startActivity(intent);
                 finish();
-
-                //Log.e("Usuario:",response.body());
-                //Log.e("User:", String.valueOf(response));
-
             }
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {

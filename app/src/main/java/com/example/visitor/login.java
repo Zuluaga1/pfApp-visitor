@@ -3,7 +3,6 @@ package com.example.visitor;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,9 +15,6 @@ import android.widget.Toast;
 import com.example.visitor.interfaces.ProductoApi;
 import com.example.visitor.models.User;
 import com.google.android.material.textfield.TextInputEditText;
-import com.vishnusivadas.advanced_httpurlconnection.PutData;
-
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,12 +31,7 @@ public class login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-          //      WindowManager.LayoutParams.FLAG_SECURE); bloquear ss
         setContentView(R.layout.activity_login);
-         final String esteban;
-
-
         textInputEditTextUsername = findViewById(R.id.username);
         textInputEditTextPassword = findViewById(R.id.password);
         buttonLogin = findViewById(R.id.btnLogin);
@@ -69,7 +60,6 @@ public class login extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            //Starting Write and Read data with URL
                             //Creating array for parameters
                             String[] field = new String[2];
                             field[0] = "username";
@@ -80,34 +70,7 @@ public class login extends AppCompatActivity {
                             data[0] = username;
                             data[1] = password;
                             getPosts(username,password);
-
-
-                            //PutData putData = new PutData("http://192.168.1.85/LoginRegister/login.php", "POST", field, data);
-                            //PutData putData = new PutData("http://192.168.1.85:5000/crear", "GET",field,data);
-                            //if (putData.startPut()) {
-
-                               // if (putData.onComplete()) {
-                                    //progressBar.setVisibility(View.GONE);
-                                   // String result = putData.getResult();
-                                    //if(valid() == false){
-                                  //      Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
-                            /*
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        intent.putExtra("usuario",username);
-                                        startActivity(intent);
-                                        finish();
-
-                             */
-                                    //}
-                                    //else{
-                                      //  Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
-                                    //}
-                                    //End ProgressBar (Set visibility to GONE)
-                                    //Log.i("PutData", result);
-                                }
-                            //}
-                            //End Write and Read data with URL
-                       // }
+                        }
                     });
                 }
                 else {
@@ -119,12 +82,13 @@ public class login extends AppCompatActivity {
     private void getPosts(String username, String password){
         Boolean app;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.84:5000/")
+                .baseUrl("http://3.141.193.87:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build(); //creando instancia retrofit
         ProductoApi productoApi = retrofit.create(ProductoApi.class);
         Call<List<User>> call = productoApi.getUsersPost(new User(username,password));
         call.enqueue(new Callback<List<User>>(){
+            String placa;
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                List<User> postsList = response.body();
@@ -132,89 +96,24 @@ public class login extends AppCompatActivity {
                    String content = "";
                    content += "pro_nombre:"+ user.getPro_nombre() + "\n";
                    content += "pro_placa:"+ user.getPro_placa() + "\n";
-                   Log.e("APi encontrada: ",content);
+                   placa = user.getPro_placa();
+                   Log.e("Conexión a la API: ",content);
+
+
+
                }
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("usuario",username);
+                intent.putExtra("placa",placa);
                 startActivity(intent);
                 finish();
 
-                //Log.e("Usuario:",response.body());
-                //Log.e("User:", String.valueOf(response));
 
             }
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.e("hola: ","no API");
+                Log.e("error: ","Conexión a la API fallida");
                 Toast.makeText(getApplicationContext(),"incorrecto", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    /*
-    public class Peticion extends AsyncTask<Void, Void, Call<List<User>>> {
-        //String  username, password;
-
-
-        @Override
-        protected Call<List<User>> doInBackground(Void... voids) {
-
-            final  String url = "http://192.168.1.85:5000/";
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(url)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-
-            ProductoApi service = retrofit.create(ProductoApi.class);
-            Call<User> call = service.findUserPost("a");
-            call.enqueue(new Callback<User>(){
-                @Override
-                public void onResponse(Call<User>call,Response<User>response){
-                    log.e("User:", response.body)
-                }
-            })
-
-            Call<List<User>> response = service.getUsersPost();
-
-            try {
-                for (User user : response.execute().body())
-
-                    Log.e("Respuesta:   ",user.getPro_nombre()+ " "+user.getPro_placa());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-    */
-    /*
-    private void find(String codigo){
-        Retrofit retrofit =new Retrofit.Builder().baseUrl("http://192.168.1.85:5000/")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        ProductoApi productoApi = retrofit.create(ProductoApi.class);
-        Call<User> call = productoApi.find(codigo);
-        call.enqueue(new Callback<User>(){
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                try{
-                    if(response.isSuccessful()){
-                        User u = response.body();
-
-
-                    }
-
-                }catch(Exception ex){
-                    Toast.makeText(getApplicationContext(),ex.getMessage(), Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
-
-        });
-    }*/
 }

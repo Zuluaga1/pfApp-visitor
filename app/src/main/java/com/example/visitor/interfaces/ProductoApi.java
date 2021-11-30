@@ -13,15 +13,10 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ProductoApi {
-    @GET("api/crear")
-    Call<List<User>> getUsersGet();
 
-    @POST("api/crear")
+    @POST("api/v1/login")
     Call<List<User>> getUsersPost(@Body User datos);
 
-    @POST("api/n_user")
+    @POST("api/v1/users")
     Call<List<User>> createUser(@Body User datos1);
-
-    @POST("api/crear")
-    Call<User> findUserPost(@Query("user")String User);
 }

@@ -70,7 +70,8 @@
                 android:id="@+id/placa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                android:inputType="textCapCharacters"
                 android:drawableEnd="@drawable/ic_placa"
                 android:fontFamily="@font/poppinsmedium"
                 tools:targetApi="jelly_bean" />
@@ -113,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_lock"
                 android:fontFamily="@font/poppinsmedium"
+                android:inputType="textPassword"
                 tools:targetApi="jelly_bean" />
         </com.google.android.material.textfield.TextInputLayout>
 
